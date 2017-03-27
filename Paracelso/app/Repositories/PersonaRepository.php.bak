@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Persona;
+use App\Models\Medico;
+use DB;
+class PersonaRepository
+{
+    /**
+     * Get all of the tasks for a given user.
+     *
+     * @param  User  $user
+     * @return Collection
+     */
+    public function RepMedico($codigo_institucion)
+    {
+        /*return Dominio::where('nombre', $nombre_dominio)
+                    ->orderBy('id_dominio', 'asc')
+                    ->get();*/
+        //return Medico::where('codigo_institucion', $codigo_institucion)->get()->persona;
+                    //return Medico::find(1)->persona->get();
+                    //return Medico::first(1)->persona->get();
+                    return DB::table('personas')
+                            ->join('medicos', 'personas.id_persona', '=', 'medicos.id_persona')
+                            ->select('personas.nombre', 'personas.ap_paterno','personas.ap_materno', 'medicos.id_medico')
+                            ->where('medicos.codigo_institucion',$codigo_institucion)
+                            ->get();
+
+                    /*$medicos= Medico::select('id_persona')->where('codigo_institucion',$codigo_institucion)->get();
+                    return Persona::whereIn('id_persona',$medicos)->get();*/
+
+                    //return $medicos->persona();
+                    //App\Flight::where('active', 1)->first();
+                    //return Persona::find(39)->medico->get(); //funciona!!!
+    }
+    //jugar con relaciones en los modelos
+    //listar los nombres e id_medicos desde Personas como una relacion unos a muchos ver getting starting intermedio
+    //hacer el join
+    //$NombresMedicos = Medico::find(1)->persona;
+    //$NombresMedicos = Medico::where('codigo-institucion', $codigo_institucion)->persona();
+}

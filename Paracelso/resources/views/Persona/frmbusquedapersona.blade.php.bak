@@ -1,0 +1,51 @@
+@extends('layouts.app')
+
+@section('content')
+    <meta name="csrf-token" content="{{csrf_token()}}"/>
+    <!-- Bootstrap Boilerplate... -->
+    <div class="panel-heading">
+                    <center>BUSQUEDA DE PERSONAS</center>
+                </div>
+    <div class="panel-body">
+        <!-- Display Validation Errors -->
+        <!--@include('commons.errors')-->
+
+        <!-- Formulario de Busqueda de Persona action="{{ url('buscarpersona') }}" method="GET"-->
+        <form method='POST' class="form-horizontal">
+            {{ csrf_field() }}
+
+            <div class="form-group">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" id="token">    
+                <label for="nombre" class="col-sm-3 control-label">Nombres</label>
+
+                <div class="col-sm-6">
+                    <input type="text" name="nombre" id="nombre" class="form-control" ><!--onkeydown="down()" onkeyup="up()"-->
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ap_paterno" class="col-sm-3 control-label">Apellido Paterno</label>
+                <div class="col-sm-6">
+                    <input type="text" name="ap_paterno" id="ap_paterno" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ap_materno" class="col-sm-3 control-label">Apellido Materno</label>
+                <div class="col-sm-6">
+                    <input type="text" name="ap_materno" id="ap_materno" class="form-control">
+                </div>
+            </div>
+            <!-- Buscar una Persona -->
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <button type="button" class="btn btn-default" onclick="buscarpersonas()">
+                        <i class="fa fa-plus"></i> Buscar
+                    </button>
+                </div>
+            </div>
+            <div class="form-group" id="resultadobusqueda">
+                <!--RESULTADO DE LA BUSQUEDA lstpersonsa.blade.php --> 
+            </div>
+        </form>
+        <script type="text/javascript" src="{{asset('js/busqueda.js')}}"></script>
+    </div>
+@endsection
