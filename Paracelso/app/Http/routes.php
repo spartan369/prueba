@@ -44,8 +44,8 @@ Route::group(['middleware' => ['auth']],function(){
     Route::get('/frmbusquedapersona/{codigo_transaccion}', 'Persona\PersonaControlador@FormBusquedaPersona');
     Route::get('/datospersona/{id_persona}','Persona\PersonaControlador@ObtenerDatoPersona');
 
-    //Route::get('/imagenpersona/{id_persona}','Persona\PersonaControlador@DesplegarImagenPersona');
-    Route::get('/imagenpersona/{id_persona}','Persona\PersonaControlador@showPicture');
+    Route::get('/imagenpersona/{id_persona}','Persona\PersonaControlador@DesplegarImagenPersona');
+    //Route::get('/imagenpersona/{id_persona}','Persona\PersonaControlador@showPicture');
     //esta ruta utiliza Ajacx de Jquery
     Route::post('buscarpersonas','Persona\PersonaControlador@BuscarPersonas');
     Route::get('/persona', 'Persona\PersonaControlador@BuscarPersona');

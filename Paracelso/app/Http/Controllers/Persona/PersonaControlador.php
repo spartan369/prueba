@@ -58,13 +58,15 @@ class PersonaControlador extends Controller
                 //REGISTRO DE BLOB CON STANDARES DE PHP
                 $datofoto=fopen($request->file("imagenpersona"), "r");
                 $data= fread($datofoto,filesize($request->file("imagenpersona")));//$fotopersona;
-                $imagen->imagen= pg_escape_bytea($data);
+                $personaimagen->id_persona=$id_persona;
+                $personaimagen->imagen= pg_escape_bytea($data);
+                $personaimagen->estado='AC';
                 //este ultimo metodo trabaja mejor que el anterior debido a que esstandar asi tambien el tamaño de la imagen es el original
              }
 
         //$imagen->save();
         $conexion=pg_connect("host=localhost port=5432 dbname=prueba user=postgres password=damian123");
-        pg_query($conexion,"INSERT INTO paracelso.personas_imagenes (id_persona,imagen) VALUES ($id_persona,'{$imagen->imagen}','AC')");
+        pg_query($conexion,"INSERT INTO paracelso.personas_imagenes (id_persona,imagen,estado) VALUES ($id_persona,'{$personaimagen->imagen}','AC')");
         echo "La extension foto es ".$foto->guessExtension()." el tamaño es ".$foto->getClientSize()." el nombre original es ".$foto->getClientOriginalName() ;        
     }
      public function RegistrarPersona(Request $request)
@@ -177,17 +179,24 @@ class PersonaControlador extends Controller
     
     protected function DesplegarImagenPersona(Request $request,$id_persona)
     {   
-        $ImagenPersona=PersonaImagen::where([   ['id_persona', '=',$id_persona],
+        /*$ImagenPersona=PersonaImagen::where([   ['id_persona', '=',$id_persona],
                                                     ])
                     ->orderBy('id_persona', 'asc')
-                    ->get();
-        foreach ($ImagenPersona as $ImagenPersona) {
-            $imagen=Image::make($ImagenPersona->imagen);
-        }
-        Response::make($imagen->encode('jpeg'));
-        $response->header('Content-Type', 'image/jpeg');
-        $foto=pg_unescape_bytea($imagen);
-        print ("La imagen es: ".$foto );        
+                    ->get();*/
+        $ImagenPersonas = PersonaImagen::findOrFail($id_persona); 
+        $conexion=pg_connect("host=localhost port=5432 dbname=prueba user=postgres password=damian123");
+        $resultado=pg_query($conexion,"SELECT * FROM paracelso.personas_imagenes WHERE id_persona=$id_persona");
+        $foto = pg_fetch_result($resultado, 'imagen');
+        //$foto=pg_unescape_bytea($ImagenPersona->imagen);
+        //dd($ImagenPersona->imagen);
+        /*foreach ($ImagenPersonas as $ImagenPersona) {
+            $foto=pg_unescape_bytea($ImagenPersona->imagen);
+        }*/
+        //$response->header('Content-Type', 'image/jpeg');
+        //$foto=pg_unescape_bytea($imagen);
+        header('Content-type: image/jpeg');
+        //print ($ImagenPersonas->imagen);        
+        print (pg_unescape_bytea($foto));        
         
     }
     public function showPicture($id_persona)
