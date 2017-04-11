@@ -15,6 +15,7 @@ use App\Repositories\PersonaRepository;
 use Image;
 use Input;
 use Response;
+use DB;
 class PersonaControlador extends Controller
 {   
     private $bitacora;
@@ -65,8 +66,10 @@ class PersonaControlador extends Controller
              }
 
         //$imagen->save();
-        $conexion=pg_connect("host=localhost port=5432 dbname=prueba user=postgres password=damian123");
-        pg_query($conexion,"INSERT INTO paracelso.personas_imagenes (id_persona,imagen,estado) VALUES ($id_persona,'{$personaimagen->imagen}','AC')");
+        //$conexion=pg_connect("host=localhost port=5432 dbname=prueba user=postgres password=damian123");
+        //pg_query($conexion,"INSERT INTO paracelso.personas_imagenes (id_persona,imagen,estado) VALUES ($id_persona,'{$personaimagen->imagen}','AC')");
+
+        DB::insert('insert into paracelso.personas_imagenes (id_persona, imagen,estado) values (:id_persona, :imagen,:estado)', ['id_persona'=>$id_persona,'imagen'=>pg_escape_bytea($personaimagen->imagen),'estado'=>'AC']);
         echo "La extension foto es ".$foto->guessExtension()." el tamaño es ".$foto->getClientSize()." el nombre original es ".$foto->getClientOriginalName() ;        
     }
      public function RegistrarPersona(Request $request)
