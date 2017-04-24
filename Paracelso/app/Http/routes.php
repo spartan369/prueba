@@ -87,6 +87,8 @@ Route::group(['middleware' => ['auth']],function(){
     Route::get('frmhistoria','Historia\HistoriaControlador@FormHistoria');
     Route::post('/historia', 'Historia\HistoriaControlador@RegistrarHistoria');
 
+    //------------REPORTES-------------------------
+    Route::get('RptHistorial', 'Reportes\ReportesControlador@HistorialPaciente');
     //PAGINAS ESTATICAS//
     //Internas Aplicacion
     Route::get('/acerca', function () {
