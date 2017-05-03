@@ -66,10 +66,13 @@ class PersonaControlador extends Controller
              }
 
         //$imagen->save();
-        //$conexion=pg_connect("host=localhost port=5432 dbname=prueba user=postgres password=damian123");
-        //pg_query($conexion,"INSERT INTO paracelso.personas_imagenes (id_persona,imagen,estado) VALUES ($id_persona,'{$personaimagen->imagen}','AC')");
+			 $usuario=env('DB_USERNAME');
+        	 $password=env('DB_PASSWORD');
+        	 $bd=env('DB_DATABASE');
+			 $conexion=pg_connect("host=localhost port=5432 dbname=$bd user=$usuario password=$password");
+        	pg_query($conexion,"INSERT INTO paracelso.personas_imagenes (id_persona,imagen,estado) VALUES ($id_persona,'{$personaimagen->imagen}','AC')");
 
-        DB::insert('insert into paracelso.personas_imagenes (id_persona, imagen,estado) values (:id_persona, :imagen,:estado)', ['id_persona'=>$id_persona,'imagen'=>pg_escape_bytea($personaimagen->imagen),'estado'=>'AC']);
+        //DB::insert('insert into paracelso.personas_imagenes (id_persona, imagen,estado) values (:id_persona, :imagen,:estado)', ['id_persona'=>$id_persona,'imagen'=>pg_escape_bytea($personaimagen->imagen),'estado'=>'AC']);
         echo "La extension foto es ".$foto->guessExtension()." el tamaño es ".$foto->getClientSize()." el nombre original es ".$foto->getClientOriginalName() ;        
     }
      public function RegistrarPersona(Request $request)
