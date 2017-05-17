@@ -16,5 +16,5 @@
 //Route::resource('imagen', 'ImagenController');
 
 Route::get('algo', function () {
-        echo "WFT";//return view('Imagenes.frmimagen');
+        echo "WFTMASTER";//return view('Imagenes.frmimagen');
     });
